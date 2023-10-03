@@ -1,0 +1,589 @@
+{
+  "sse": "123456",
+  "wifis": [
+    {
+      "ssid": "",
+      "key": false,
+      "useStaticIp": false,
+      "staticIp": "0.0.0.0",
+      "staticSubnet": "0.0.0.0",
+      "staticGateway": "0.0.0.0",
+      "useStaticDns": false,
+      "staticDns0": "0.0.0.0",
+      "staticDns1": "0.0.0.0",
+      "staticDns2": "0.0.0.0"
+    },
+    {
+      "ssid": "",
+      "key": false,
+      "useStaticIp": false,
+      "staticIp": "0.0.0.0",
+      "staticSubnet": "0.0.0.0",
+      "staticGateway": "0.0.0.0",
+      "useStaticDns": false,
+      "staticDns0": "0.0.0.0",
+      "staticDns1": "0.0.0.0",
+      "staticDns2": "0.0.0.0"
+    }
+  ],
+  "scan": null,
+  "lwf": null,
+  "scaa": null,
+  "wst": 9,
+  "wsc": 0,
+  "wsm": "",
+  "wsl": null,
+  "wsms": 0,
+  "ccw": null,
+  "wfb": null,
+  "wcb": "00:00:00:00:00:00",
+  "wpb": null,
+  "nif": "en",
+  "cce": {
+    "speed": "100M",
+    "dup": "FULL",
+    "ip": "192.168.1.2",
+    "subnet": 24,
+    "gw": "192.168.1.1",
+    "ipv6": [
+      "FE80::ABCD:1234:5678:ABCD"
+    ]
+  },
+  "dns": {
+    "dns0": "192.168.1.1",
+    "dns1": "0.0.0.0",
+    "dns2": "0.0.0.0"
+  },
+  "host": "go-econtroller_123456",
+  "rssi": null,
+  "wda": true,
+  "tse": true,
+  "tsss": 0,
+  "tof": 60,
+  "tds": 1,
+  "tzt": "",
+  "utc": "2023-09-30T08:53:04.633",
+  "loc": "2023-09-30T10:53:04.634 +02:00",
+  "fna": "go-e Controller Test Data",
+  "rbc": 7,
+  "rbt": 240161768,
+  "fwv": "1.0.6",
+  "oem": "go-e",
+  "typ": "controller",
+  "awc": 0,
+  "awp": 3,
+  "awcp": null,
+  "ocu": [
+    "1.0.6"
+  ],
+  "cwe": true,
+  "clea": 222806290,
+  "cle": "esp_transport_write() returned 0, transport_error=ESP_OK, tls_error_code=0, tls_flags=0, errno=0",
+  "mme": false,
+  "mmh": "",
+  "mmp": 502,
+  "men": false,
+  "msp": 502,
+  "msb": false,
+  "msr": false,
+  "data": "{\"i\":120,\"url\":\"https://data.v3.go-e.io/data\"}",
+  "dll": "https://data.controller.go-e.io/export",
+  "hai": true,
+  "mce": false,
+  "mcu": "mqtt://username:password@mqtt-broker:1883",
+  "mcr": false,
+  "mtp": "go-eController/123456/",
+  "mqg": true,
+  "mqcn": false,
+  "mqss": false,
+  "mcs": false,
+  "mcc": false,
+  "mcca": null,
+  "mlr": null,
+  "mlra": null,
+  "ccn": [
+    "Home",
+    "Grid",
+    "Car",
+    "Relais",
+    "Solar",
+    "Akku",
+    "Custom 1",
+    "Custom 2",
+    "Custom 3",
+    "Custom 4",
+    "Custom 5",
+    "Custom 6",
+    "Custom 7",
+    "Custom 8",
+    "Custom 9",
+    "Custom 10"
+  ],
+  "ccp": [
+    2823.99,
+    -4658.055,
+    null,
+    null,
+    7482.045,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "ecp": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "cec": [
+    [
+      34141.12,
+      7826.659
+    ],
+    [
+      15961.12,
+      122907.1
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      136009.9,
+      1.508855
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "cpc": [
+    [
+      12.51552,
+      19.20388,
+      21.57067,
+      null
+    ],
+    [
+      1.212599,
+      9.24908,
+      10.688,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      11.30292,
+      9.954805,
+      10.88266,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ]
+  ],
+  "ccf": [
+    [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "ccs": [
+    true,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "ccci": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "bri": 142,
+  "usn": [
+    "Internal 1"
+  ],
+  "usv": [
+    {
+      "u1": 234.7242,
+      "u2": 239.5702,
+      "u3": 239.8172,
+      "uN": 0.815918
+    }
+  ],
+  "isn": [
+    "Internal 1",
+    "Internal 2",
+    "Internal 3",
+    "Internal 4",
+    "Internal 5",
+    "Internal 6"
+  ],
+  "isv": [
+    {
+      "i": 1.212599,
+      "p": 43.549,
+      "f": 0.153004
+    },
+    {
+      "i": 9.24908,
+      "p": -2169.455,
+      "f": -0.979083
+    },
+    {
+      "i": 10.688,
+      "p": -2532.149,
+      "f": -0.987899
+    },
+    {
+      "i": 11.30292,
+      "p": 2553.345,
+      "f": 0.962412
+    },
+    {
+      "i": 9.954805,
+      "p": 2345.673,
+      "f": 0.983563
+    },
+    {
+      "i": 10.88266,
+      "p": 2583.027,
+      "f": 0.989722
+    }
+  ],
+  "ips": [
+    0,
+    1,
+    2,
+    0,
+    1,
+    2
+  ],
+  "iim": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "mece": false,
+  "mecu": "http://username:password@hostname/wizard/public/api/measurements",
+  "mecd": null,
+  "mecf": [
+    [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ]
+}

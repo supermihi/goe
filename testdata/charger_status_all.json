@@ -1,0 +1,559 @@
+{
+  "alw": false,
+  "acu": null,
+  "adi": true,
+  "dwo": null,
+  "tpa": 0,
+  "sse": "654321",
+  "eto": 6,
+  "wifis": [
+    {
+      "ssid": "MyWifi",
+      "key": true,
+      "useStaticIp": false,
+      "staticIp": "0.0.0.0",
+      "staticSubnet": "0.0.0.0",
+      "staticGateway": "0.0.0.0",
+      "useStaticDns": false,
+      "staticDns0": "0.0.0.0",
+      "staticDns1": "0.0.0.0",
+      "staticDns2": "0.0.0.0"
+    },
+    {
+      "ssid": "",
+      "key": false,
+      "useStaticIp": false,
+      "staticIp": "0.0.0.0",
+      "staticSubnet": "0.0.0.0",
+      "staticGateway": "0.0.0.0",
+      "useStaticDns": false,
+      "staticDns0": "0.0.0.0",
+      "staticDns1": "0.0.0.0",
+      "staticDns2": "0.0.0.0"
+    },
+    {
+      "ssid": "",
+      "key": false,
+      "useStaticIp": false,
+      "staticIp": "0.0.0.0",
+      "staticSubnet": "0.0.0.0",
+      "staticGateway": "0.0.0.0",
+      "useStaticDns": false,
+      "staticDns0": "0.0.0.0",
+      "staticDns1": "0.0.0.0",
+      "staticDns2": "0.0.0.0"
+    }
+  ],
+  "scan": [
+    {
+      "ssid": "FRITZ!Box 7590",
+      "encryptionType": 3,
+      "rssi": -69,
+      "channel": 11,
+      "bssid": "11:11:11:AA:AA:AA",
+      "f": [
+        4,
+        4,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        "DE"
+      ]
+    }
+  ],
+  "lwf": 106713903,
+  "scaa": 106721498,
+  "wst": 3,
+  "wsc": 0,
+  "wsm": "106713902404 WIFI_STA_DISCONNECTED ssid=\"MyWiFi\" bssid=12:34:56:78:90:AB reason=6(NOT_AUTHED)",
+  "wsl": [
+    [
+      106713902404,
+      "MyWiFi",
+      "12:34:56:78:90:AB",
+      "NOT_AUTHED"
+    ]
+  ],
+  "wsms": 3,
+  "ccw": {
+    "ssid": "MyWiFi",
+    "encryptionType": 3,
+    "pairwiseCipher": 4,
+    "groupCipher": 3,
+    "b": true,
+    "g": true,
+    "n": true,
+    "lr": false,
+    "wps": false,
+    "ftmResponder": false,
+    "ftmInitiator": false,
+    "channel": 8,
+    "bssid": "12:34:56:78:90:AB",
+    "ip": "192.168.1.3",
+    "netmask": "255.255.255.0",
+    "gw": "192.168.1.1",
+    "ipv6": [
+      "FE80::EB8:AAAA:AAAA:AAAA"
+    ]
+  },
+  "wfb": null,
+  "wcb": "12:34:56:78:90:AB",
+  "wpb": [
+    "12:34:56:78:90:AB"
+  ],
+  "nif": "st",
+  "dns": {
+    "dns0": "192.168.1.1",
+    "dns1": "0.0.0.0",
+    "dns2": "0.0.0.0"
+  },
+  "host": "go-echarger_654321",
+  "rssi": -86,
+  "wda": true,
+  "tse": true,
+  "tsss": 0,
+  "tof": 60,
+  "tds": 1,
+  "tzt": "",
+  "utc": "2023-09-30T08:54:11.347",
+  "loc": "2023-09-30T10:54:11.350 +02:00",
+  "led": {
+    "id": 16,
+    "name": "Pulsate",
+    "norwayOverlay": true,
+    "modeOverlay": true,
+    "subtype": "renderCmds",
+    "ranges": [
+      {
+        "from": 0,
+        "to": 15,
+        "fade": "2048ms",
+        "colors0": [
+          "#FF00DA"
+        ],
+        "colors1": [
+          "#000000"
+        ]
+      },
+      {
+        "from": 16,
+        "to": 31,
+        "colors": [
+          "#000000"
+        ]
+      }
+    ]
+  },
+  "lbr": 105,
+  "lmo": 4,
+  "ama": 16,
+  "tcl": null,
+  "die": false,
+  "dii": true,
+  "la1": 16,
+  "la3": 16,
+  "di1": false,
+  "pgr": false,
+  "pdi": false,
+  "clp": [
+    6,
+    10,
+    12,
+    14,
+    16
+  ],
+  "bac": 3,
+  "sdp": 2,
+  "lbp": null,
+  "amp": 16,
+  "fna": "go-e Wallbox Testdata",
+  "isgo": false,
+  "simo": true,
+  "aus": false,
+  "rdbs": 0,
+  "rdes": 0,
+  "rdbf": 0,
+  "rdef": 0,
+  "rdre": 0,
+  "rdpl": 0,
+  "rdbse": null,
+  "rdese": null,
+  "rdbfe": null,
+  "rdefe": null,
+  "rdree": null,
+  "rdple": null,
+  "cid": "#FF00DA",
+  "cwc": "#FFFF00",
+  "cch": "#003AFF",
+  "cfi": "#00FF00",
+  "ust": 2,
+  "lck": 2,
+  "sch_week": {
+    "control": 0,
+    "ranges": [
+      {
+        "begin": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        },
+        "end": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        }
+      },
+      {
+        "begin": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        },
+        "end": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        }
+      }
+    ]
+  },
+  "sch_satur": {
+    "control": 0,
+    "ranges": [
+      {
+        "begin": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        },
+        "end": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        }
+      },
+      {
+        "begin": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        },
+        "end": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        }
+      }
+    ]
+  },
+  "sch_sund": {
+    "control": 0,
+    "ranges": [
+      {
+        "begin": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        },
+        "end": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        }
+      },
+      {
+        "begin": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        },
+        "end": {
+          "hour": 0,
+          "minute": 0,
+          "second": 0
+        }
+      }
+    ]
+  },
+  "nmo": false,
+  "fsp": false,
+  "acs": 0,
+  "frc": 0,
+  "rbc": 8,
+  "rbt": 114835892,
+  "car": 1,
+  "err": 0,
+  "cbl": 32,
+  "pha": [
+    false,
+    false,
+    false,
+    true,
+    true,
+    true
+  ],
+  "wh": 0,
+  "trx": null,
+  "fwv": "055.7",
+  "oem": "go-e",
+  "typ": "go-eCharger_V4",
+  "lse": true,
+  "cdi": {
+    "type": 1,
+    "value": 0
+  },
+  "lccfi": null,
+  "lccfc": null,
+  "lcctc": null,
+  "tma": [
+    28.5,
+    23
+  ],
+  "amt": 32,
+  "nrg": [
+    233.74,
+    237.46,
+    235.29,
+    1.86,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "modelStatus": 17,
+  "lmsc": 55891566,
+  "mca": 6,
+  "awc": 0,
+  "awp": 3,
+  "awcp": {
+    "start": 1696060800,
+    "end": 1696064400,
+    "marketprice": 8.745
+  },
+  "frm": 1,
+  "fup": true,
+  "awe": false,
+  "fst": 1400,
+  "fmt": 300000,
+  "att": 32400,
+  "ate": 20000,
+  "ara": true,
+  "acp": true,
+  "cco": 20,
+  "esk": false,
+  "fzf": false,
+  "pgt": 0,
+  "sh": 200,
+  "psh": 500,
+  "po": -300,
+  "zfo": 200,
+  "psmd": 10000,
+  "sumd": 10000,
+  "mpwst": 120000,
+  "mptwt": 600000,
+  "mmp": 0,
+  "tlf": false,
+  "tls": null,
+  "atp": null,
+  "lpsc": 106431921,
+  "inva": null,
+  "pgrid": null,
+  "ppv": null,
+  "pakku": null,
+  "deltap": 884.5617,
+  "pnp": 1,
+  "deltaa": -1.167347,
+  "pvopt_averagePGrid": -884.5617,
+  "pvopt_averagePPv": 1203.843,
+  "pvopt_averagePAkku": 0,
+  "ct": "",
+  "mci": 0,
+  "mcpd": 0,
+  "mcpea": null,
+  "su": false,
+  "sua": false,
+  "var": 11,
+  "loe": false,
+  "log": "",
+  "lop": 50,
+  "lof": 0,
+  "map": [
+    1,
+    2,
+    3
+  ],
+  "upo": true,
+  "pwm": 1,
+  "lfspt": null,
+  "fsptws": 50747668,
+  "spl3": 4200,
+  "psm": 0,
+  "ocu": [
+    "055.7",
+    "055.8 BETA",
+    "V 054.0 OUTDATED",
+    "V 054.11 OUTDATED",
+    "V 054.2 OUTDATED",
+    "V 054.3 OUTDATED",
+    "V 054.6 OUTDATED",
+    "V 054.7 OUTDATED",
+    "V 055.0 OUTDATED",
+    "V 055.5 OUTDATED"
+  ],
+  "cwe": true,
+  "clea": 106713800,
+  "cle": "esp_transport_poll_read() returned -1, transport_error=ESP_OK, tls_error_code=0, tls_flags=0, errno=119",
+  "cus": 3,
+  "ffb": 0,
+  "fhz": 50.045,
+  "loa": null,
+  "lot": {
+    "amp": 32,
+    "dyn": 32,
+    "sta": 32,
+    "ts": 0
+  },
+  "loty": 0,
+  "cards": [
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": true
+    },
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": false
+    },
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": false
+    },
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": false
+    },
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": false
+    },
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": false
+    },
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": false
+    },
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": false
+    },
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": false
+    },
+    {
+      "name": "n/a",
+      "energy": 0,
+      "cardId": false
+    }
+  ],
+  "smd": null,
+  "men": false,
+  "msp": 502,
+  "msb": false,
+  "msr": true,
+  "data": "{\"i\":120,\"url\":\"https://data.v3.go-e.io/data_ng\"}",
+  "dll": "https://data.v3.go-e.io/export",
+  "hai": true,
+  "hla": false,
+  "mce": false,
+  "mcu": "mqtt://username:password@mqtt-broker:1883",
+  "mcr": true,
+  "mtp": "go-eCharger/654321/",
+  "mqg": true,
+  "mqcn": true,
+  "mqss": true,
+  "mcs": false,
+  "mcc": false,
+  "mcca": null,
+  "mlr": null,
+  "mlra": null,
+  "ocppe": false,
+  "ocppu": "",
+  "ocppg": true,
+  "ocppcn": false,
+  "ocppss": false,
+  "ocpps": false,
+  "ocppc": false,
+  "ocppca": null,
+  "ocppa": false,
+  "ocppaa": null,
+  "ocppti": null,
+  "ocppao": false,
+  "ocpplo": true,
+  "ocppla": true,
+  "ocpph": 3600,
+  "ocppi": 0,
+  "ocppai": 0,
+  "ocppd": "no-card",
+  "ocppr": false,
+  "ocpplea": null,
+  "ocpple": null,
+  "ocpprl": false,
+  "ocppcs": 0,
+  "rde": false,
+  "lri": null,
+  "tsi": null,
+  "lrc": null,
+  "lrr": null,
+  "cmse": false,
+  "cmmr": 20,
+  "cms": "_go-e_controller",
+  "cmp": "_tcp",
+  "lcs": 41008379,
+  "csa": false,
+  "ctrls": [
+    [
+      "123456",
+      1,
+      true,
+      false,
+      [
+        "go-econtroller_123456",
+        "go-e Controller Testdata",
+        80,
+        "2",
+        "1.0.6",
+        "go-e",
+        "controller",
+        "go-e Controller Testdata",
+        [
+          "FE80::AAAA:AAAA:AAAA:AAAA",
+          "192.168.1.2"
+        ]
+      ]
+    ]
+  ],
+  "ccd": null
+}
