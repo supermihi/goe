@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Self
 
@@ -21,21 +22,28 @@ class Statistics(StatusSlice):
 
 @dataclass
 class Configuration(StatusSlice):
-    KEYS = 'dwo', 'psm', 'spl3'
+    """Charging-related configuration.
+
+    Args:
+        energy_limit: Total charging energy limit, in Wh (None if disabled).
+        phase_switch_mode: configured phase switching mode.
+        three_phase_switch_level: minimum solar power (in W) required to switch to 3-phase charging.
+        current_limit_presets: Current limits (in A) that can be set by pressing the button at the Charger.
+    """
+    KEYS = 'dwo', 'psm', 'spl3', 'clp'
     NAME = 'config'
 
-    energy_limit_wh: float | None
-    phase_switch_mode: PhaseSwitchMode | None
-    three_phase_switch_level_W: float | None
+    energy_limit: float | None
+    phase_switch_mode: PhaseSwitchMode
+    three_phase_switch_level: float
+    current_limit_presets: Sequence[float]
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
-        energy_limit = result['dwo']
-        phase_switch_mode = result['psm']
-        switch_level = result['spl3']
-        return Configuration(energy_limit_wh=energy_limit,
-                             phase_switch_mode=None if phase_switch_mode is None else PhaseSwitchMode(
-                                 phase_switch_mode), three_phase_switch_level_W=switch_level)
+        return Configuration(energy_limit=result['dwo'],
+                             phase_switch_mode=PhaseSwitchMode(result['psm']),
+                             three_phase_switch_level=result['spl3'],
+                             current_limit_presets=result['clp'])
 
 
 @dataclass

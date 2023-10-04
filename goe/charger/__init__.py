@@ -1,7 +1,7 @@
-from goe.charger.slices import ChargingStatus, Statistics
+from goe.charger.slices import ChargingStatus, Statistics, Configuration
 from goe.slices import SliceClient
-from goe.slices.common import MetaData
+from goe.slices.common import MetaData, Time
 
 
 class GoEChargerClient(SliceClient):
-    _SLICES = MetaData, ChargingStatus, Statistics
+    _SLICES = MetaData, Time, Configuration, ChargingStatus, Statistics
