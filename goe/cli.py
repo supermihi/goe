@@ -3,8 +3,7 @@ from argparse import ArgumentParser
 from pprint import pprint
 from typing import Type
 
-from goe.connection import LocalHttpApiConnection
-from goe.json_client import GoEJsonClient
+from goe.json_client import LocalJsonClient
 from goe.slices.client import SliceClient
 
 
@@ -32,13 +31,14 @@ def run():
     if args.host is None:
         print('In local mode, host (-h/--host) must be given\n')
         sys.exit(1)
-
+    if args.command is None:
+        print('No subcommand given.')
+        sys.exit(1)
     args.func(args)
 
 
 def action_json(args):
-    connection = LocalHttpApiConnection(args.host)
-    client = GoEJsonClient(connection)
+    client = LocalJsonClient(args.host)
     pprint(client.query(keys=args.keys))
 
 

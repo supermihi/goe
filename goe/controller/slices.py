@@ -5,35 +5,29 @@ from typing import Self
 
 from goe.json_client import JsonResult
 from goe.slices import StatusSlice
+from goe.slices.common import PerPhaseWithN
 
 
 @dataclass
-class VoltageSensorValues:
-    """Current values of a voltage sensor.
+class VoltageSensor:
+    """Measurement of a single voltage sensor.
 
     Args:
         name (str): The sensor name.
-        u_1 (float): Phase1 voltage.
-        u_2 (float): Phase 2 voltage.
-        u_3 (float): Phase 3 voltage.
-        u_N (float): Neutral wire voltage.
+        values (PerPhaseValuesWithN): Measured voltages.
     """
     name: str
-    u_1: float
-    u_2: float
-    u_3: float
-    u_N: float
+    values: PerPhaseWithN[float]
 
 
-class Voltages(StatusSlice, list[VoltageSensorValues]):
+class VoltageSensors(StatusSlice, list[VoltageSensor]):
     KEYS = 'usn', 'usv'
     NAME = 'voltages'
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
-        usn = result['usn']
-        usv = result['usv']
-        return [VoltageSensorValues(name, v['u1'], v['u2'], v['u3'], v['uN']) for name, v in zip(usn, usv)]
+        return [VoltageSensor(name, PerPhaseWithN(v['u1'], v['u2'], v['u3'], v['uN'])) for name, v in
+                zip(result['usn'], result['usv'])]
 
 
 @dataclass
@@ -82,10 +76,7 @@ class CategoryStatus:
     power: float | None
     energy_in: float
     energy_out: float
-    current_phase_1: float | None
-    current_phase_2: float | None
-    current_phase_3: float | None
-    current_phase_N: float | None
+    current: PerPhaseWithN[float | None]
 
 
 class Categories(StatusSlice, list[CategoryStatus]):
@@ -99,25 +90,23 @@ class Categories(StatusSlice, list[CategoryStatus]):
         energy_counters = result.get('cec')
         phase_currents = result.get('cpc')
         return Categories(CategoryStatus(name=name, power=power, energy_in=energies[0], energy_out=energies[1],
-                                         current_phase_1=currents[0], current_phase_2=currents[1],
-                                         current_phase_3=currents[2],
-                                         current_phase_N=currents[3]) for
+                                         current=PerPhaseWithN(*currents)) for
                           name, power, energies, currents in
                           zip(category_names, category_powers, energy_counters, phase_currents))
 
 
 @dataclass
 class SensorValues(StatusSlice):
-    KEYS = Categories.KEYS + Voltages.KEYS + CurrentSensors.KEYS
+    KEYS = Categories.KEYS + VoltageSensors.KEYS + CurrentSensors.KEYS
     NAME = 'sensors'
 
     categories: Categories
-    voltages: Voltages
+    voltages: VoltageSensors
     currents: CurrentSensors
 
     @classmethod
     def parse(cls, status: JsonResult) -> SensorValues:
-        voltages = Voltages.parse(status)
+        voltages = VoltageSensors.parse(status)
         currents = CurrentSensors.parse(status)
         categories = Categories.parse(status)
         return SensorValues(categories, voltages, currents)

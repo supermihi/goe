@@ -5,6 +5,7 @@ from typing import Self
 from goe.charger.enums import PhaseSwitchMode, CarState, Error, CableLockStatus, ModelStatus
 from goe.json_client import JsonResult
 from goe.slices import StatusSlice
+from goe.slices.common import PerPhaseWithN, PerPhase
 
 
 @dataclass
@@ -46,9 +47,34 @@ class Configuration(StatusSlice):
                              current_limit_presets=result['clp'])
 
 
-@dataclass
+@dataclass(frozen=True)
+class ChargingEnergies:
+    voltage: PerPhaseWithN[float]
+    current: PerPhase[float]
+    power: PerPhaseWithN[float]
+    power_total: float
+    power_factor: PerPhaseWithN[float]
+
+    @staticmethod
+    def from_nrg(nrg: Sequence[float]):
+        """Creates ChargingEnergies from the 'nrg' array of a go-e Charger API status."""
+        voltage = PerPhaseWithN(*nrg[0:4])
+        current = PerPhase(*nrg[4:7])
+        power = PerPhaseWithN(*nrg[7:11])
+        power_total = nrg[11]
+        power_factor = PerPhaseWithN(*nrg[12:])
+        return ChargingEnergies(voltage, current, power, power_total, power_factor)
+
+
+@dataclass(frozen=True)
 class ChargingStatus(StatusSlice):
-    KEYS = 'alw', 'acu', 'tpa', 'car', 'err', 'cus', 'modelStatus'
+    """Status related to the current charging session.
+
+        Args:
+            allowed_to_charge_now: is the car allowed to charge at all now?
+            allowed_current_now: how many Ampere is the car allowed to charge now?
+        """
+    KEYS = 'alw', 'acu', 'tpa', 'car', 'err', 'cus', 'modelStatus', 'wh', 'nrg'
     NAME = 'charging_status'
 
     allowed_to_charge_now: bool
@@ -58,20 +84,18 @@ class ChargingStatus(StatusSlice):
     error: Error | None
     cable_lock: CableLockStatus
     status: ModelStatus
+    energy_since_connected: float
+    energies: ChargingEnergies
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
-        allowed_to_charge = result['alw']
-        allowed_current = result['acu']
-        power_average = result['tpa']
-        car_state = result['car']
         error = result['err']
-        cable_lock = result['cus']
-        model_status = result['modelStatus']
-        return ChargingStatus(allowed_to_charge_now=allowed_to_charge,
-                              allowed_current_now=allowed_current,
-                              power_average_30s=power_average,
-                              car_state=CarState(car_state),
+        return ChargingStatus(allowed_to_charge_now=result['alw'],
+                              allowed_current_now=result['acu'],
+                              power_average_30s=result['tpa'],
+                              car_state=CarState(result['car']),
                               error=None if error in (None, 0) else Error(error),
-                              cable_lock=CableLockStatus(cable_lock),
-                              status=ModelStatus(model_status))
+                              cable_lock=CableLockStatus(result['cus']),
+                              status=ModelStatus(result['modelStatus']),
+                              energy_since_connected=result['wh'],
+                              energies=ChargingEnergies.from_nrg(result['nrg']))

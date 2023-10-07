@@ -1,6 +1,14 @@
 from datetime import timedelta, datetime, timezone
 
-from goe.slices.common import MetaData, Time, TimeServerSyncStatus, TimeZoneDaylightSavingMode
+from goe.slices.common import MetaData, Time, TimeServerSyncStatus, TimeZoneDaylightSavingMode, PerPhase
+
+
+def test_per_phase():
+    values = PerPhase[float](1, 2.5, 3)
+
+    assert values[0] == 1
+    assert values[1:] == (2.5, 3)
+    assert len(values) == 3
 
 
 def test_parse_metadata():

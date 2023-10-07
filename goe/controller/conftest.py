@@ -5,7 +5,7 @@ import pytest
 
 @pytest.fixture()
 def get_test_data():
-    testdata_path = Path(__file__).resolve().parent.parent / 'testdata'
+    testdata_path = Path(__file__).resolve().parent.parent.parent / 'testdata'
 
     def result(path: Path) -> str:
         full_path = testdata_path / path

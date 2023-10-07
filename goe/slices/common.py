@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import timedelta, datetime, tzinfo, timezone
+from datetime import timedelta, datetime, timezone
 from enum import Enum
-from typing import Self
+from typing import Self, Generic, Sequence, TypeVar
 
 from goe.json_client import JsonResult
 from goe.slices.slice import StatusSlice
@@ -64,3 +64,46 @@ class Time(StatusSlice):
                     utc_time=utc_time,
                     local_time=local_time
                     )
+
+
+T = TypeVar('T')
+
+
+class PerPhase(Generic[T], Sequence[T]):
+
+    def __init__(self, phase_1: T, phase_2: T, phase_3: T):
+        self._values = (phase_1, phase_2, phase_3)
+
+    def __getitem__(self, index):
+        return self._values.__getitem__(index)
+
+    def __len__(self):
+        return self._values.__len__()
+
+    @property
+    def phase_1(self):
+        return self._values[0]
+
+    @property
+    def phase_2(self):
+        return self._values[1]
+
+    @property
+    def phase_3(self):
+        return self._values[2]
+
+    def __repr__(self):
+        return f'PerPhaseValues(phase_1={self.phase_1}, phase_2={self.phase_2}, phase_3={self.phase_3})'
+
+
+class PerPhaseWithN(PerPhase[T]):
+    def __init__(self, value_1, value_2, value_3, neutral):
+        super().__init__(value_1, value_2, value_3)
+        self._values = (value_1, value_2, value_3, neutral)
+
+    @property
+    def neutral(self):
+        return self._values[3]
+
+    def __repr__(self):
+        return f'PerPhaseValuesWithN(phase_1={self.phase_1}, phase_2={self.phase_2}, phase_3={self.phase_3}, neutral={self.neutral})'

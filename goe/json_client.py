@@ -1,39 +1,70 @@
 import json
-import urllib
-from collections.abc import Callable, Mapping, Iterable
-from http.client import HTTPResponse
-from typing import Any
-from urllib.request import Request
-
-from goe.connection import ApiConnection, LocalHttpApiConnection, CloudApiConnection
+from abc import abstractmethod, ABC
+from collections.abc import Mapping, Iterable
+from typing import Any, Literal
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
 JsonResult = Mapping[str, Any]
 
 
-class GoEJsonClient:
-    """Generic low-level API for go-e products."""
+class GoEJsonClient(ABC):
+    """Client for querying the JSON API of go-e products."""
 
-    def __init__(self, connection: ApiConnection, fetch: Callable[[Request], HTTPResponse] = urllib.request.urlopen):
-        self.connection = connection
-        self._fetch = fetch
-
-    @staticmethod
-    def local(hostname_or_ip: str):
-        connection = LocalHttpApiConnection(hostname_or_ip)
-        return GoEJsonClient(connection)
-
-    @staticmethod
-    def cloud(serial_number: str, cloud_api_key: str):
-        connection = CloudApiConnection(serial_number, cloud_api_key)
-        return GoEJsonClient(connection)
-
+    @abstractmethod
     def query(self, keys: Iterable[str] | None = None) -> JsonResult:
         """Query the status API.
 
         Args:
             keys: optional sequence of API keys to filter for.
         """
-        request = self.connection.create_request(keys)
-        with self._fetch(request) as response:
+        raise NotImplementedError()
+
+
+def urlencode_keys(keys: Iterable[str]):
+    return urlencode(dict(filter=','.join(keys)))
+
+
+class LocalJsonClient(GoEJsonClient):
+
+    def __init__(self, hostname_or_ip: str):
+        self.base_url = f'http://{hostname_or_ip}/api'
+
+    def query(self, keys: Iterable[str] | None = None) -> JsonResult:
+        query = urlencode_keys(keys or [])
+        full_url = f'{self.base_url}/status?{query}'
+        with urlopen(full_url) as response:
             json_string = response.read().decode()
             return json.loads(json_string)
+
+
+class CloudJsonClient(GoEJsonClient):
+    """Client for calling tho go-e cloud API."""
+
+    def __init__(self, cloud_api_key: str, serial_number: str = None, device: Literal['controller', 'charger'] = None,
+                 domain: str = None):
+        if domain is None:
+            if device is None or serial_number is None:
+                raise ValueError('either domain or serial and device must be given')
+            match device:
+                case 'controller':
+                    subdomain = 'controller'
+                case 'charger':
+                    subdomain = 'v3'
+                case _:
+                    raise ValueError('invalid device. Must be one of "controller", "charger"')
+            self.domain = f'https://{serial_number}.api.{subdomain}.go-e.io'
+        else:
+            self.domain = domain
+        self.cloud_api_key = cloud_api_key
+
+    def query(self, keys: Iterable[str] | None = None) -> JsonResult:
+        query = urlencode_keys(keys or [])
+        request = Request(f'{self.domain}/api/status?{query}', headers=self.headers)
+        with urlopen(request) as response:
+            json_string = response.read().decode()
+            return json.loads(json_string)
+
+    @property
+    def headers(self):
+        return {'Authorization': f'Bearer {self.cloud_api_key}'}

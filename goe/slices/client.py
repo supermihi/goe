@@ -4,7 +4,7 @@ import itertools
 from abc import ABCMeta
 from typing import ClassVar, Type
 
-from goe.json_client import GoEJsonClient
+from goe.json_client import GoEJsonClient, LocalJsonClient, CloudJsonClient
 from goe.slices.slice import StatusSlice
 
 
@@ -34,12 +34,13 @@ class SliceClient(metaclass=SliceClientMeta):
     @classmethod
     def local(cls, host: str):
         """Convenience factory method using a local JSON client."""
-        return cls(GoEJsonClient.local(host))
+        return cls(LocalJsonClient(host))
 
     @classmethod
-    def cloud(cls, serial_number: str, cloud_api_key: str):
-        """Convenience factory method using a cloud JSON client."""
-        return cls(GoEJsonClient.cloud(serial_number, cloud_api_key))
+    def cloud(cls, *args, **kwargs):
+        """Convenience factory method using a cloud JSON client, to which all
+        arguments are forwarded."""
+        return cls(CloudJsonClient(*args, **kwargs))
 
     def get_slices(self, *slices: Type[StatusSlice]):
         keys = itertools.chain(*(slice.KEYS for slice in slices))

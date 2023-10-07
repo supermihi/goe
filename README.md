@@ -118,12 +118,12 @@ users the maximum flexibility. For most use cases, the higher-level
 structured APIs (see below) are more convenient.
 
 ```python
->> > from goe.json_client import GoEJsonClient
->> > local_client = GoEJsonClient.local('192.168.1.1')
+>> > from goe.json_client import LocalJsonClient, CloudJsonClient
+>> > local_client = LocalJsonClient('192.168.1.1')
 >> > local_client.query()
 {'alw': False, 'acu': None, 'adi': True, 'dwo': None, 'tpa': 0, [...]}
 
->> > cloud_client = GoEJsonClient.cloud(serial_number='123456', cloud_api_key='secret')
+>> > cloud_client = CloudJsonClient(serial_number='123456', device='controller', cloud_api_key='secret')
 >> > cloud_client.query_stats()
 {'alw': False, 'acu': None, 'adi': True, 'dwo': None, 'tpa': 0, [...]}
 
