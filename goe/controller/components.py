@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Self
+from typing import Self, Sequence
 
 from goe.json_client import JsonResult
 from goe.components import ComponentBase
@@ -21,8 +21,13 @@ class VoltageSensor:
 
 
 class VoltageSensors(ComponentBase, list[VoltageSensor]):
-    KEYS = 'usn', 'usv'
-    NAME = 'voltages'
+    @classmethod
+    def keys(cls) -> Sequence[str]:
+        return 'usn', 'usv'
+
+    @classmethod
+    def name(cls) -> str:
+        return 'voltages'
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
@@ -51,8 +56,13 @@ class CurrentSensorStatus:
 
 
 class CurrentSensors(ComponentBase, tuple[CurrentSensorStatus, ...]):
-    KEYS = 'isn', 'isv', 'ips', 'iim'
-    NAME = 'currents'
+    @classmethod
+    def name(cls) -> str:
+        return 'currents'
+
+    @classmethod
+    def keys(cls) -> Sequence[str]:
+        return 'isn', 'isv', 'ips', 'iim'
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
@@ -80,8 +90,13 @@ class CategoryStatus:
 
 
 class Categories(ComponentBase, tuple[CategoryStatus, ...]):
-    KEYS = 'ccn', 'ccp', 'cec', 'cpc'
-    NAME = 'categories'
+    @classmethod
+    def keys(cls) -> Sequence[str]:
+        return 'ccn', 'ccp', 'cec', 'cpc'
+
+    @classmethod
+    def name(cls) -> str:
+        return 'categories'
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
@@ -97,8 +112,15 @@ class Categories(ComponentBase, tuple[CategoryStatus, ...]):
 
 @dataclass
 class SensorValues(ComponentBase):
-    KEYS = Categories.KEYS + VoltageSensors.KEYS + CurrentSensors.KEYS
-    NAME = 'sensors'
+    """Convenience component; combines 'Categories', 'VoltagesSensors' and 'CurrentSensors'."""
+
+    @classmethod
+    def keys(cls) -> Sequence[str]:
+        return tuple(Categories.keys()) + tuple(VoltageSensors.keys()) + tuple(CurrentSensors.keys())
+
+    @classmethod
+    def name(cls) -> str:
+        return 'sensors'
 
     categories: Categories
     voltages: VoltageSensors

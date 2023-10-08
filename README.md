@@ -127,8 +127,13 @@ To create a custom component, subclass `ComponentBase` like this:
 
 @dataclass
 class MyComponent(ComponentBase):
-    KEYS = 'iaw', 'awe'  # API keys to fetch for this component
-    NAME = 'my_component'
+    @classmethod
+    def keys(cls):
+      return 'iaw', 'awe'  # API keys to fetch for this component
+    
+    @classmethod
+    def name(cls):
+      return 'my_component'
 
     is_awesome: bool
     awesomeness: int

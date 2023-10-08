@@ -49,14 +49,14 @@ def action_json(args):
 def device_client_action(args):
     client_type: Type[DeviceClientBase] = args.client
     client = client_type.local(args.host)
-    components_by_name = {component.NAME: component for component in client.supported_components()}
+    components_by_name = {component.name(): component for component in client.supported_components()}
     selected_components = [components_by_name[name] for name in args.component]
     pprint(client.get_many(selected_components))
 
 
 def add_device_client_parser(subparsers, name: str, client: Type[DeviceClientBase]):
     parser = subparsers.add_parser(name, description=f'Make a query using a {client.__name__}.')
-    components = [component.NAME for component in client.supported_components()]
+    components = [component.name() for component in client.supported_components()]
     parser.add_argument('component', metavar='COMPONENT', choices=components, nargs='+',
                         help=f'Component(s) to query. One or more of: {", ".join(components)}')
     parser.set_defaults(func=device_client_action, client=client)

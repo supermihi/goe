@@ -10,10 +10,17 @@ from goe.components.common import PerPhaseWithN, PerPhase
 
 @dataclass
 class Statistics(ComponentBase):
-    KEYS = ('eto',)
-    NAME = 'stats'
+    """Long-term charger statistics."""
 
     energy_total_wh: int | None
+
+    @classmethod
+    def keys(cls) -> Sequence[str]:
+        return 'eto',
+
+    @classmethod
+    def name(cls) -> str:
+        return 'stats'
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
@@ -31,8 +38,14 @@ class Configuration(ComponentBase):
         three_phase_switch_level: minimum solar power (in W) required to switch to 3-phase charging.
         current_limit_presets: Current limits (in A) that can be set by pressing the button at the Charger.
     """
-    KEYS = 'dwo', 'psm', 'spl3', 'clp'
-    NAME = 'config'
+
+    @classmethod
+    def keys(cls) -> Sequence[str]:
+        return 'dwo', 'psm', 'spl3', 'clp'
+
+    @classmethod
+    def name(cls) -> str:
+        return 'config'
 
     energy_limit: float | None
     phase_switch_mode: PhaseSwitchMode
@@ -76,8 +89,14 @@ class ChargingStatus(ComponentBase):
             allowed_to_charge_now: is the car allowed to charge at all now?
             allowed_current_now: how many Ampere is the car allowed to charge now?
         """
-    KEYS = 'alw', 'acu', 'tpa', 'car', 'err', 'cus', 'modelStatus', 'wh', 'nrg'
-    NAME = 'charging_status'
+
+    @classmethod
+    def keys(cls) -> Sequence[str]:
+        return 'alw', 'acu', 'tpa', 'car', 'err', 'cus', 'modelStatus', 'wh', 'nrg'
+
+    @classmethod
+    def name(cls) -> str:
+        return 'charging_status'
 
     allowed_to_charge_now: bool
     allowed_current_now: int | None

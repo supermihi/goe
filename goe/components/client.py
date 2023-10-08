@@ -30,7 +30,7 @@ class DeviceClientBase(ABC):
 
     def get_many(self, components: Sequence[Type[ComponentBase]]):
         """Query multiple status components at once."""
-        keys = itertools.chain(*(component_type.KEYS for component_type in components))
+        keys = itertools.chain(*(component_type.keys() for component_type in components))
         result = self.json_client.query(keys=keys)
         return [component_type.parse(result) for component_type in components]
 
@@ -48,7 +48,7 @@ class DeviceClientBase(ABC):
         >>>     get_my_component = DeviceClientBase.getter(MyComponent)"""
 
         def get_component(self: DeviceClientBase):
-            result = self.json_client.query(keys=component_type.KEYS)
+            result = self.json_client.query(keys=component_type.keys())
             return component_type.parse(result)
 
         return get_component

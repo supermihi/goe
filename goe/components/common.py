@@ -14,12 +14,18 @@ from goe.components.component import ComponentBase
 @dataclass(frozen=True)
 class MetaData(ComponentBase):
     """Device metadata. This is identical for both the go-e controller and the go-e charger."""
-    NAME = 'meta'
-    KEYS = 'sse', 'fna', 'fwv'
 
     serial_number: str
     friendly_name: str
     firmware_version: str
+
+    @classmethod
+    def keys(cls) -> Sequence[str]:
+        return 'sse', 'fna', 'fwv'
+
+    @classmethod
+    def name(cls) -> str:
+        return 'meta'
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
@@ -42,8 +48,13 @@ class TimeZoneDaylightSavingMode(Enum):
 
 @dataclass(frozen=True)
 class Time(ComponentBase):
-    KEYS = 'tse', 'tsss', 'tof', 'tds', 'utc', 'loc'
-    NAME = 'time'
+    @classmethod
+    def keys(cls) -> Sequence[str]:
+        return 'tse', 'tsss', 'tof', 'tds', 'utc', 'loc'
+
+    @classmethod
+    def name(cls) -> str:
+        return 'time'
 
     time_server_enabled: bool
     time_server_sync_status: TimeServerSyncStatus
