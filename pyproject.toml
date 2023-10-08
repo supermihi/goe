@@ -1,9 +1,12 @@
 [tool.poetry]
 name = "goe"
 version = "0.1.0"
-description = ""
+description = "API clients for go-e devices"
 authors = ["Michael Helmling <michaelhelmling@posteo.de>"]
+license = "MIT"
+repository = "https://github.com/supermihi/goe"
 readme = "README.md"
+packages = [{ include = "goe" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
