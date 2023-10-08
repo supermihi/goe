@@ -4,8 +4,8 @@ from dataclasses import dataclass
 from typing import Self
 
 from goe.json_client import JsonResult
-from goe.slices import StatusSlice
-from goe.slices.common import PerPhaseWithN
+from goe.components import ComponentBase
+from goe.components.common import PerPhaseWithN
 
 
 @dataclass
@@ -20,7 +20,7 @@ class VoltageSensor:
     values: PerPhaseWithN[float]
 
 
-class VoltageSensors(StatusSlice, list[VoltageSensor]):
+class VoltageSensors(ComponentBase, list[VoltageSensor]):
     KEYS = 'usn', 'usv'
     NAME = 'voltages'
 
@@ -50,7 +50,7 @@ class CurrentSensorStatus:
     inverted: bool
 
 
-class CurrentSensors(StatusSlice, list[CurrentSensorStatus]):
+class CurrentSensors(ComponentBase, tuple[CurrentSensorStatus, ...]):
     KEYS = 'isn', 'isv', 'ips', 'iim'
     NAME = 'currents'
 
@@ -79,7 +79,7 @@ class CategoryStatus:
     current: PerPhaseWithN[float | None]
 
 
-class Categories(StatusSlice, list[CategoryStatus]):
+class Categories(ComponentBase, tuple[CategoryStatus, ...]):
     KEYS = 'ccn', 'ccp', 'cec', 'cpc'
     NAME = 'categories'
 
@@ -96,7 +96,7 @@ class Categories(StatusSlice, list[CategoryStatus]):
 
 
 @dataclass
-class SensorValues(StatusSlice):
+class SensorValues(ComponentBase):
     KEYS = Categories.KEYS + VoltageSensors.KEYS + CurrentSensors.KEYS
     NAME = 'sensors'
 

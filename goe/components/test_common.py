@@ -1,6 +1,6 @@
 from datetime import timedelta, datetime, timezone
 
-from goe.slices.common import MetaData, Time, TimeServerSyncStatus, TimeZoneDaylightSavingMode, PerPhase
+from goe.components.common import MetaData, Time, TimeServerSyncStatus, TimeZoneDaylightSavingMode, PerPhase
 
 
 def test_per_phase():

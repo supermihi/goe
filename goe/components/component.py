@@ -6,16 +6,19 @@ from typing import ClassVar, Self
 from goe.json_client import JsonResult, GoEJsonClient
 
 
-class StatusSlice(ABC):
+class ComponentBase(ABC):
+    """Represents once component of the status API, i.e., a coherent subset of the
+    entire status JSON structure.
+    """
     KEYS: ClassVar[tuple[str, ...]]
-    """When subclassing, set this to the API keys that need to be queried for this slice."""
+    """When subclassing, set this to the API keys that need to be queried for this component."""
     NAME: ClassVar[str]
-    """Short name for this slice. Used in generated 'get_<NAME>()' accessors and CLI."""
+    """Short name for this component. Used for CLI script."""
 
     @classmethod
     @abstractmethod
     def parse(cls, result: JsonResult) -> Self:
-        """Parse this slice from a JsonResult."""
+        """Extract and parse this component from a JSON result."""
         raise NotImplementedError()
 
     @classmethod

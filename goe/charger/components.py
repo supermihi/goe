@@ -4,12 +4,12 @@ from typing import Self
 
 from goe.charger.enums import PhaseSwitchMode, CarState, Error, CableLockStatus, ModelStatus
 from goe.json_client import JsonResult
-from goe.slices import StatusSlice
-from goe.slices.common import PerPhaseWithN, PerPhase
+from goe.components import ComponentBase
+from goe.components.common import PerPhaseWithN, PerPhase
 
 
 @dataclass
-class Statistics(StatusSlice):
+class Statistics(ComponentBase):
     KEYS = ('eto',)
     NAME = 'stats'
 
@@ -22,7 +22,7 @@ class Statistics(StatusSlice):
 
 
 @dataclass
-class Configuration(StatusSlice):
+class Configuration(ComponentBase):
     """Charging-related configuration.
 
     Args:
@@ -58,6 +58,8 @@ class ChargingEnergies:
     @staticmethod
     def from_nrg(nrg: Sequence[float]):
         """Creates ChargingEnergies from the 'nrg' array of a go-e Charger API status."""
+        # from spec, nrg array is
+        # U (L1, L2, L3, N), I (L1, L2, L3), P (L1, L2, L3, N, Total), pf (L1, L2, L3, N)
         voltage = PerPhaseWithN(*nrg[0:4])
         current = PerPhase(*nrg[4:7])
         power = PerPhaseWithN(*nrg[7:11])
@@ -67,7 +69,7 @@ class ChargingEnergies:
 
 
 @dataclass(frozen=True)
-class ChargingStatus(StatusSlice):
+class ChargingStatus(ComponentBase):
     """Status related to the current charging session.
 
         Args:

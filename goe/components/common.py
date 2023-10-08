@@ -6,13 +6,13 @@ from enum import Enum
 from typing import Self, Generic, Sequence, TypeVar
 
 from goe.json_client import JsonResult
-from goe.slices.slice import StatusSlice
+from goe.components.component import ComponentBase
 
-"""Status API slices shared between multiple device types."""
+"""Status API components shared between multiple device types."""
 
 
 @dataclass(frozen=True)
-class MetaData(StatusSlice):
+class MetaData(ComponentBase):
     """Device metadata. This is identical for both the go-e controller and the go-e charger."""
     NAME = 'meta'
     KEYS = 'sse', 'fna', 'fwv'
@@ -41,7 +41,7 @@ class TimeZoneDaylightSavingMode(Enum):
 
 
 @dataclass(frozen=True)
-class Time(StatusSlice):
+class Time(ComponentBase):
     KEYS = 'tse', 'tsss', 'tof', 'tds', 'utc', 'loc'
     NAME = 'time'
 
@@ -94,6 +94,12 @@ class PerPhase(Generic[T], Sequence[T]):
 
     def __repr__(self):
         return f'PerPhaseValues(phase_1={self.phase_1}, phase_2={self.phase_2}, phase_3={self.phase_3})'
+
+    def __hash__(self):
+        return self._values.__hash__()
+
+    def __eq__(self, other):
+        return isinstance(other, PerPhase) and self._values.__eq__(other._values)
 
 
 class PerPhaseWithN(PerPhase[T]):

@@ -13,101 +13,75 @@ by [go-e](https://go-e.com).
 - filtered queries for faster queries and reduced server load
 - extensible and hackable
 
-# High-Level Slice API
-This package contains high-level API clients for both the go-e Charger and the
+# Status
+This is a new project, still rapidly changing. It works, but may change frequently.
+
+If you rely on a stable interface, please wait a few weeks for version 1.0.0 to be
+released.
+
+# Easy Access Charger and Controller API Clients
+
+This package contains high-level, easy-to-use API clients for both the go-e Charger and the
 go-e Controller.
 
-They are centered around the concept of a _slice_ – a subset of the device status data
-that forms a logical component (e.g.: metadata slice, current sensor value slice).
+Building upon the [JSON API](#json-api), these
 
-Every slice can be queried individually and is parsed into a typed dataclass object that uses
-self-explaining and documented field names.
-
-The slice-based API facilitates most use cases without needing to consult the official
-API specification. If you need more flexibility, this package also provides access to the
-raw [JSON API](#json-api).
-)
+- parse the raw JSON result into typed Python objects with self-explaining names
+- group the queryable status into components (e.g.: "WiFi", "charging status", "sensor values") that can be queried
+  individually
 
 ### Charger Example
-```python
->>> from goe.charger import GoEChargerClient
->>> # create a Charger local API client
->>> charger = GoEChargerClient.local('192.168.1.2')
->>> charger.get_meta() # query device info
-MetaData(serial_number='123456',
-          friendly_name='my Wallbox',
-          firmware_version='055.7')
 
->>> charger.get_charging_status() # query current charging data
-[ChargingStatus(allowed_to_charge_now=False,
-                allowed_current_now=None,
-                power_average_30s=0,
-                car_state=<CarState.Idle: 1>,
-                error=None,
-                cable_lock=<CableLockStatus.Locked: 3>,
-                status=<ModelStatus.NotChargingBecauseFallbackAwattar: 17>)
+```python
+>> > from goe.charger import GoEChargerClient
+>> >  # create a Charger local API client
+>> > charger = GoEChargerClient.local('192.168.1.2')
+>> > charger.get_meta()  # query device info
+MetaData(serial_number='123456',
+         friendly_name='my Wallbox',
+         firmware_version='055.7')
+
+>> > status = charger.get_status()  # query current charging data
+>> > energies = status.energies
+>> > print(energies.power)
+PerPhaseWithN(phase_1=1239, phase_2=1190, phase_3=1540, neutral=0)
 ```
 
 ### Controller Example
+
 ```python
->>> from goe.controller import GoEControllerClient
->>> # create a Controller cloud API client
->>> controller = GoEControllerClient.cloud(serial_number='123456', cloud_api_key='secret')
->>> controller.get_meta()
+>> > from goe.controller import GoEControllerClient
+>> >  # create a Controller cloud API client
+>> > controller = GoEControllerClient.cloud(serial_number='123456', cloud_api_key='secret')
+>> > controller.get_meta()
 MetaData(serial_number='123456',
          friendly_name='My Controller',
          firmware_version='1.0.6')
 
->>> controller.get_categories() # by-category sensor values
-[[CategoryStatus(name='Home',
-                 power=248.9663,
-                 energy_in=73433.59,
+>> > categories = controller.get_categories()  # by-category sensor values
+>> > print(categories[:2])
+[(CategoryStatus(name='Home',
+                 power=248.6361,
+                 energy_in=114684.6,
                  energy_out=7826.659,
-                 current_phase_1=1.54793,
-                 current_phase_2=0.925657,
-                 current_phase_3=0.608566,
-                 current_phase_N=None),
+                 current=PerPhaseValuesWithN(phase_1=13.85199, phase_2=12.94702, phase_3=13.27633, neutral=None)),
   CategoryStatus(name='Grid',
-                 power=230.6368,
-                 energy_in=29181.21,
-                 energy_out=305853.6,
-                 current_phase_1=1.239844,
-                 current_phase_2=0.589963,
-                 current_phase_3=0.278742,
-                 current_phase_N=None),
-  CategoryStatus(name='Car',
-                 power=None,
-                 energy_in=0,
-                 energy_out=0,
-                 current_phase_1=None,
-                 current_phase_2=None,
-                 current_phase_3=None,
-                 current_phase_N=None),
-  CategoryStatus(name='Relais',
-                 power=None,
-                 energy_in=0,
-                 energy_out=0,
-                 current_phase_1=None,
-                 current_phase_2=None,
-                 current_phase_3=None,
-                 current_phase_N=None),
-  CategoryStatus(name='Solar',
-                 power=18.32956,
-                 energy_in=345030.1,
-                 energy_out=2.82422,
-                 current_phase_1=0.308085,
-                 current_phase_2=0.335694,
-                 current_phase_3=0.329825,
-                 current_phase_N=None)]
-
+                 power=-4486.617,
+                 energy_in=47386.92,
+                 energy_out=483994.9,
+                 current=PerPhaseValuesWithN(phase_1=6.473037, phase_2=6.319575, phase_3=6.584583, neutral=None))
+  ]
 ```
 
-### Querying Multiple Slices at Once
-The slice API lets you query for multiple slices at once, resulting in only
+### Querying Multiple Components at Once
+
+The high-level API lets you query for multiple components at once, resulting in only
 a single call to the device or cloud API:
+
 ```python
->>> voltages, currents, meta = controller.get_slices(Voltages, Currents, MetaData)
+>> > voltages, currents, meta = controller.get_many([Voltages, Currents, MetaData])
 ```
+
 # JSON API
 
 The JSON API client provides unified access to both the local
@@ -124,7 +98,7 @@ structured APIs (see below) are more convenient.
 {'alw': False, 'acu': None, 'adi': True, 'dwo': None, 'tpa': 0, [...]}
 
 >> > cloud_client = CloudJsonClient(serial_number='123456', device='controller', cloud_api_key='secret')
->> > cloud_client.query_stats()
+>> > cloud_client.query()
 {'alw': False, 'acu': None, 'adi': True, 'dwo': None, 'tpa': 0, [...]}
 
 ```
@@ -142,29 +116,31 @@ to query for:
 ```
 
 # Extending
-It is easy to extend or customize the slices used by the high-level APIs, e.g. if some
-API keys are not (yet) implemented by this library or if the predefined grouping of API
-keys into slices does not fit your needs.
 
-To create a custom slice, subclass `StatusSlice` like this:
+It is easy to extend or customize the components used by the high-level APIs, e.g. if some
+API keys are not (yet) implemented by this library or if the predefined grouping of API
+keys into components does not fit your needs.
+
+To create a custom component, subclass `ComponentBase` like this:
 
 ```python
 
 @dataclass
-class MySlice(StatusSlice):
-    KEYS = 'iaw', 'awe'  # API keys to fetch for this slice
-    NAME = 'my_slice'
+class MyComponent(ComponentBase):
+    KEYS = 'iaw', 'awe'  # API keys to fetch for this component
+    NAME = 'my_component'
 
     is_awesome: bool
     awesomeness: int
 
     @classmethod
-    def parse(cls, result: JsonResult) -> MySlice:
-        return MySlice(result['iaw'], result['awe'])
+    def parse(cls, result: JsonResult) -> MyComponent:
+        return MyComponent(result['iaw'], result['awe'])
 ```
+
 and use like this:
 
 ```python
->>> client = GoEJsonClient(...)
->>> my_slice = MySlice.query(client)
+>> > client: GoEJsonClient = ...
+>> > my_component = MyComponent.query(client)
 ```
