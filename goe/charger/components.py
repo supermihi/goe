@@ -92,7 +92,7 @@ class ChargingStatus(ComponentBase):
 
     @classmethod
     def keys(cls) -> Sequence[str]:
-        return 'alw', 'acu', 'tpa', 'car', 'err', 'cus', 'modelStatus', 'wh', 'nrg'
+        return 'alw', 'acu', 'tpa', 'car', 'err', 'cus', 'modelStatus', 'wh', 'nrg', 'pnp'
 
     @classmethod
     def name(cls) -> str:
@@ -107,6 +107,7 @@ class ChargingStatus(ComponentBase):
     status: ModelStatus
     energy_since_connected: float
     energies: ChargingEnergies
+    number_of_phases: int
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
@@ -119,4 +120,5 @@ class ChargingStatus(ComponentBase):
                               cable_lock=CableLockStatus(result['cus']),
                               status=ModelStatus(result['modelStatus']),
                               energy_since_connected=result['wh'],
-                              energies=ChargingEnergies.from_nrg(result['nrg']))
+                              energies=ChargingEnergies.from_nrg(result['nrg']),
+                              number_of_phases=result['pnp'])
