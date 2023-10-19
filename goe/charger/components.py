@@ -1,8 +1,9 @@
 from collections.abc import Sequence
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import Self
 
-from goe.charger.enums import PhaseSwitchMode, CarState, Error, CableLockStatus, ModelStatus
+from goe.charger.enums import PhaseSwitchMode, CarState, Error, CableLockState, ChargingStateDetail, CableLockMode
 from goe.json_client import JsonResult
 from goe.components import ComponentBase
 from goe.components.common import PerPhaseWithN, PerPhase
@@ -12,11 +13,13 @@ from goe.components.common import PerPhaseWithN, PerPhase
 class Statistics(ComponentBase):
     """Long-term charger statistics."""
 
-    energy_total_wh: int | None
+    energy_total_wh: int
+    reboot_count: int
+    uptime: timedelta
 
     @classmethod
     def keys(cls) -> Sequence[str]:
-        return 'eto',
+        return 'eto', 'rbc', 'rbt'
 
     @classmethod
     def name(cls) -> str:
@@ -24,8 +27,9 @@ class Statistics(ComponentBase):
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
-        energy_total = result['eto']
-        return Statistics(energy_total_wh=energy_total)
+        uptime = timedelta(milliseconds=result['rbt'])
+        return Statistics(energy_total_wh=(result['eto']),
+                          uptime=uptime, reboot_count=result['rbc'])
 
 
 @dataclass
@@ -41,7 +45,7 @@ class Configuration(ComponentBase):
 
     @classmethod
     def keys(cls) -> Sequence[str]:
-        return 'dwo', 'psm', 'spl3', 'clp'
+        return 'dwo', 'psm', 'spl3', 'clp', 'lck'
 
     @classmethod
     def name(cls) -> str:
@@ -51,13 +55,15 @@ class Configuration(ComponentBase):
     phase_switch_mode: PhaseSwitchMode
     three_phase_switch_level: float
     current_limit_presets: Sequence[float]
+    cable_lock_mode: CableLockMode
 
     @classmethod
     def parse(cls, result: JsonResult) -> Self:
         return Configuration(energy_limit=result['dwo'],
                              phase_switch_mode=PhaseSwitchMode(result['psm']),
                              three_phase_switch_level=result['spl3'],
-                             current_limit_presets=result['clp'])
+                             current_limit_presets=result['clp'],
+                             cable_lock_mode=CableLockMode(result['lck']))
 
 
 @dataclass(frozen=True)
@@ -103,8 +109,8 @@ class ChargingStatus(ComponentBase):
     power_average_30s: float
     car_state: CarState
     error: Error | None
-    cable_lock: CableLockStatus
-    status: ModelStatus
+    cable_lock: CableLockState
+    state_detail: ChargingStateDetail
     energy_since_connected: float
     energies: ChargingEnergies
     number_of_phases: int
@@ -117,8 +123,8 @@ class ChargingStatus(ComponentBase):
                               power_average_30s=result['tpa'],
                               car_state=CarState(result['car']),
                               error=None if error in (None, 0) else Error(error),
-                              cable_lock=CableLockStatus(result['cus']),
-                              status=ModelStatus(result['modelStatus']),
+                              cable_lock=CableLockState(result['cus']),
+                              state_detail=ChargingStateDetail(result['modelStatus']),
                               energy_since_connected=result['wh'],
                               energies=ChargingEnergies.from_nrg(result['nrg']),
                               number_of_phases=result['pnp'])

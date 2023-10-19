@@ -35,13 +35,13 @@ class Error(Enum):
     Reserved24 = 24
 
 
-class CableLockStatus(Enum):
+class CableLockState(Enum):
     Unknown = 0
     Unlocked = 1
     UnlockFailed = 2
     Locked = 3
     LockFailed = 4
-    LockUnlockPowerout = 5
+    LockUnlockPowerOutage = 5
 
 
 class PhaseSwitchMode(Enum):
@@ -50,16 +50,27 @@ class PhaseSwitchMode(Enum):
     Force_3 = 2
 
 
-class ModelStatus(Enum):
+class CableLockMode(Enum):
+    Default = 0
+    AutoUnlock = 1
+    AlwaysLock = 2
+    ForceUnlock = 3
+
+
+class ChargingStateDetail(Enum):
+    """Detailed charging status including reason why charging is on or off.
+
+    Called 'ModelStatus' in the upstream API docs.
+    """
     NotChargingBecauseNoChargeCtrlData = 0
-    NotChargingBecauseOvertemperature = 1
+    NotChargingBecauseOverTemperature = 1
     NotChargingBecauseAccessControlWait = 2
     ChargingBecauseForceStateOn = 3
     NotChargingBecauseForceStateOff = 4
     NotChargingBecauseScheduler = 5
     NotChargingBecauseEnergyLimit = 6
     ChargingBecauseAwattarPriceLow = 7
-    ChargingBecauseAutomaticStopTestLadung = 8
+    ChargingBecauseAutomaticStopTestCharging = 8
     ChargingBecauseAutomaticStopNotEnoughTime = 9
     ChargingBecauseAutomaticStop = 10
     ChargingBecauseAutomaticStopNoClock = 11
