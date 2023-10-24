@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Self, Sequence
+from typing import Sequence
 
 from goe.json_client import JsonResult
 from goe.components import ComponentBase
@@ -30,7 +30,7 @@ class VoltageSensors(ComponentBase, list[VoltageSensor]):
         return 'voltages'
 
     @classmethod
-    def parse(cls, result: JsonResult) -> Self:
+    def parse(cls, result: JsonResult):
         return [VoltageSensor(name, PerPhaseWithN(v['u1'], v['u2'], v['u3'], v['uN'])) for name, v in
                 zip(result['usn'], result['usv'])]
 
@@ -65,7 +65,7 @@ class CurrentSensors(ComponentBase, tuple[CurrentSensorStatus, ...]):
         return 'isn', 'isv', 'ips', 'iim'
 
     @classmethod
-    def parse(cls, result: JsonResult) -> Self:
+    def parse(cls, result: JsonResult):
         isn = result['isn']
         isv = result['isv']
         ips = result['ips']
@@ -99,7 +99,7 @@ class Categories(ComponentBase, tuple[CategoryStatus, ...]):
         return 'categories'
 
     @classmethod
-    def parse(cls, result: JsonResult) -> Self:
+    def parse(cls, result: JsonResult):
         category_names = result.get('ccn')
         category_powers = result.get('ccp')
         energy_counters = result.get('cec')

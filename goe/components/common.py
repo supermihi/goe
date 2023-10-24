@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import timedelta, datetime, timezone
 from enum import Enum
-from typing import Self, Generic, Sequence, TypeVar
+from typing import Generic, Sequence, TypeVar
 
 from goe.json_client import JsonResult
 from goe.components.component import ComponentBase
@@ -28,7 +28,7 @@ class MetaData(ComponentBase):
         return 'meta'
 
     @classmethod
-    def parse(cls, result: JsonResult) -> Self:
+    def parse(cls, result: JsonResult) -> MetaData:
         return MetaData(serial_number=result['sse'],
                         friendly_name=result['fna'],
                         firmware_version=result['fwv'])
@@ -64,7 +64,7 @@ class Time(ComponentBase):
     local_time: datetime
 
     @classmethod
-    def parse(cls, result: JsonResult) -> Self:
+    def parse(cls, result: JsonResult) -> Time:
         utc_time = datetime.fromisoformat(result['utc']).replace(tzinfo=timezone.utc)
         # go-e puts a space before the offset, but datetime doesn't expect that
         local_time = datetime.fromisoformat(result['loc'].replace(' +', '+'))

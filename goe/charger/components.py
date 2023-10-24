@@ -1,7 +1,7 @@
+from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Self
 
 from goe.charger.enums import PhaseSwitchMode, CarState, Error, CableLockState, ChargingStateDetail, CableLockMode
 from goe.json_client import JsonResult
@@ -26,7 +26,7 @@ class Statistics(ComponentBase):
         return 'stats'
 
     @classmethod
-    def parse(cls, result: JsonResult) -> Self:
+    def parse(cls, result: JsonResult) -> Statistics:
         uptime = timedelta(milliseconds=result['rbt'])
         return Statistics(energy_total_wh=(result['eto']),
                           uptime=uptime, reboot_count=result['rbc'])
@@ -58,7 +58,7 @@ class Configuration(ComponentBase):
     cable_lock_mode: CableLockMode
 
     @classmethod
-    def parse(cls, result: JsonResult) -> Self:
+    def parse(cls, result: JsonResult) -> Configuration:
         return Configuration(energy_limit=result['dwo'],
                              phase_switch_mode=PhaseSwitchMode(result['psm']),
                              three_phase_switch_level=result['spl3'],
@@ -116,7 +116,7 @@ class ChargingStatus(ComponentBase):
     number_of_phases: int
 
     @classmethod
-    def parse(cls, result: JsonResult) -> Self:
+    def parse(cls, result: JsonResult) -> ChargingStatus:
         error = result['err']
         return ChargingStatus(allowed_to_charge_now=result['alw'],
                               allowed_current_now=result['acu'],

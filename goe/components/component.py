@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import Self
 
 from goe.json_client import JsonResult, GoEJsonClient
 
@@ -26,12 +25,12 @@ class ComponentBase(ABC):
 
     @classmethod
     @abstractmethod
-    def parse(cls, result: JsonResult) -> Self:
+    def parse(cls, result: JsonResult):
         """Extract and parse this component from a JSON result."""
         raise NotImplementedError()
 
     @classmethod
-    def query(cls, client: GoEJsonClient) -> Self:
+    def query(cls, client: GoEJsonClient):
         """Convenience method to query required API keys and then parse."""
         json_result = client.query(keys=cls.keys())
         result = cls.parse(json_result)
