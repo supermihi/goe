@@ -51,7 +51,8 @@ def device_client_action(args):
     client = client_type.local(args.host)
     components_by_name = {component.name(): component for component in client.supported_components()}
     selected_components = [components_by_name[name] for name in args.component]
-    pprint(client.get_many(selected_components))
+    for component in client.get_many(selected_components):
+        pprint(component)
 
 
 def add_device_client_parser(subparsers, name: str, client: Type[DeviceClientBase]):
