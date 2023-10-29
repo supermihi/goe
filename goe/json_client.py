@@ -1,6 +1,7 @@
 import json
 from abc import abstractmethod, ABC
 from collections.abc import Mapping, Iterable
+from datetime import timedelta
 from typing import Any, Literal
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -12,11 +13,12 @@ class GoEJsonClient(ABC):
     """Client for querying the JSON API of go-e products."""
 
     @abstractmethod
-    def query(self, keys: Iterable[str] | None = None) -> JsonResult:
+    def query(self, keys: Iterable[str] | None = None, timeout: timedelta | None = None) -> JsonResult:
         """Query the status API.
 
         Args:
             keys: optional sequence of API keys to filter for.
+            timeout: optional timeout for the underlying HTTP call.
         """
         raise NotImplementedError()
 
@@ -25,15 +27,19 @@ def urlencode_keys(keys: Iterable[str]):
     return urlencode(dict(filter=','.join(keys)))
 
 
+def seconds_or_none(td: timedelta | None) -> float | None:
+    return None if td is None else td.total_seconds()
+
+
 class LocalJsonClient(GoEJsonClient):
 
     def __init__(self, hostname_or_ip: str):
         self.base_url = f'http://{hostname_or_ip}/api'
 
-    def query(self, keys: Iterable[str] | None = None) -> JsonResult:
+    def query(self, keys: Iterable[str] | None = None, timeout: timedelta | None = None) -> JsonResult:
         query = urlencode_keys(keys or [])
         full_url = f'{self.base_url}/status?{query}'
-        with urlopen(full_url) as response:
+        with urlopen(full_url, timeout=seconds_or_none(timeout)) as response:
             json_string = response.read().decode()
             return json.loads(json_string)
 
@@ -58,10 +64,10 @@ class CloudJsonClient(GoEJsonClient):
             self.domain = domain
         self.cloud_api_key = cloud_api_key
 
-    def query(self, keys: Iterable[str] | None = None) -> JsonResult:
+    def query(self, keys: Iterable[str] | None = None, timeout: timedelta | None = None) -> JsonResult:
         query = urlencode_keys(keys or [])
         request = Request(f'{self.domain}/api/status?{query}', headers=self.headers)
-        with urlopen(request) as response:
+        with urlopen(request, timeout=seconds_or_none(timeout)) as response:
             json_string = response.read().decode()
             return json.loads(json_string)
 

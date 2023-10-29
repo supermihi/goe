@@ -5,8 +5,8 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence, Callable
 from typing import Type, TypeVar
 
-from goe.json_client import GoEJsonClient, LocalJsonClient
 from goe.components.component import ComponentBase
+from goe.json_client import GoEJsonClient, LocalJsonClient
 
 T = TypeVar('T', bound=ComponentBase)
 
@@ -28,10 +28,10 @@ class DeviceClientBase(ABC):
         """Return a list of StatusComponent subclasses supported by this API."""
         raise NotImplementedError()
 
-    def get_many(self, components: Sequence[Type[ComponentBase]]):
+    def get_many(self, components: Sequence[Type[ComponentBase]], **kwargs):
         """Query multiple status components at once."""
         keys = itertools.chain(*(component_type.keys() for component_type in components))
-        result = self.json_client.query(keys=keys)
+        result = self.json_client.query(keys=keys, **kwargs)
         return [component_type.parse(result) for component_type in components]
 
     @staticmethod
@@ -47,8 +47,8 @@ class DeviceClientBase(ABC):
         >>>
         >>>     get_my_component = DeviceClientBase.getter(MyComponent)"""
 
-        def get_component(self: DeviceClientBase):
-            result = self.json_client.query(keys=component_type.keys())
+        def get_component(self: DeviceClientBase, **kwargs):
+            result = self.json_client.query(keys=component_type.keys(), **kwargs)
             return component_type.parse(result)
 
         return get_component
