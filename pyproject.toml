@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "goe"
-version = "0.2.1"
+version = "0.2.2"
 description = "API clients for go-e devices"
 authors = ["Michael Helmling <michaelhelmling@posteo.de>"]
 license = "MIT"
