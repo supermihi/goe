@@ -4,7 +4,7 @@ The goe package provides easy access to the HTTP APIs of electric vehicle charge
 by [go-e](https://go-e.com).
 
 ```
-$ pipx run goe --host 192.168.178.148 charger charging_status
+$ uvx goe --host 192.168.178.148 charger charging_status
 
 ChargingStatus(allowed_to_charge_now=True,
                allowed_current_now=6,
