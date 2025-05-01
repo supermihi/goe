@@ -1,5 +1,5 @@
 from goe.charger import GoEChargerClient
-from goe.test_utils import MockClient
+from .test_utils import MockClient
 
 
 def test_get_meta():
