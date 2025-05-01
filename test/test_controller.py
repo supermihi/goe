@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from goe.controller import GoEControllerClient
-from goe.test_utils import MockClient
+from .test_utils import MockClient
 
 
 def test_controller_status_all(get_test_data):
